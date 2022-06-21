@@ -1,0 +1,21 @@
+main {
+  min-height: 80vh;
+}
+a {
+  list-style: none;
+  text-decoration: none;
+}
+.rating span {
+  margin: 0.1 rem;
+}
+h3 {
+  padding: 1rem 0;
+}
+h1 {
+  font-size: 1.8rem;
+  padding: 1rem;
+}
+h1 {
+  font-size: 1.4rem;
+  padding: 0.5rem;
+}
