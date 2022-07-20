@@ -27,8 +27,11 @@ const CartScreen = () => {
 
   //*to search query params
   const search = useLocation().search;
+  console.log('search', search);
   const qty = new URLSearchParams(search).get('qty');
+  // const size = new URLSearchParams(search).get('size');
   console.log(qty);
+  // console.log(size);
   //****************/
 
   const dispatch = useDispatch();

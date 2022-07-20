@@ -87,9 +87,18 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @route GET /api/orders
 // @access private/admin
 const getOrders = asyncHandler(async (req, res) => {
+  const pageSize = 5;
+  //pageSize refers to how many orders should visible.
+  //==> ?pageNumber=2;
+  const page = Number(req.query.pageNumber) || 1;
+
   console.log('entered Allorder ');
-  const orders = await Order.find({}).populate('user', 'id name email');
-  res.json(orders);
+  const count = await Order.count();
+  const orders = await Order.find({})
+    .populate('user', 'id name email')
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+  res.json({ orders, page, pages: Math.ceil(count / pageSize) });
 });
 
 // @desc UPDATE Order to DELIVER
@@ -111,6 +120,30 @@ const updateOrderToDeliver = asyncHandler(async (req, res) => {
   }
 });
 
+const mongoAggregation = asyncHandler(async (req, res) => {
+  console.log('entered date aggree');
+  const date = req.body.date;
+  console.log(date);
+  console.log(date);
+  const orders = await Order.aggregate([
+    { $match: { createdAt: { $lte: date } } },
+
+    // Stage 2: Group remaining documents by date and calculate results
+    // {
+    //   $group: {
+    //     _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+    //     totalOrderValue: { $sum: '$totalPrice' },
+    //     averageOrderQuantity: { $avg: '$qty' },
+    //   },
+    // },
+    // // Stage 3: Sort documents by totalOrderValue in descending order
+    // {
+    //   $sort: { totalOrderValue: -1 },
+    // },
+  ]);
+  res.json(orders);
+});
+
 export {
   addOrderItems,
   getOrderById,
@@ -118,4 +151,5 @@ export {
   getMyOrders,
   getOrders,
   updateOrderToDeliver,
+  mongoAggregation,
 };

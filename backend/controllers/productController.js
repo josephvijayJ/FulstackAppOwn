@@ -87,4 +87,65 @@ const searchProduct = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProducts, getProductById, reviewProduct, searchProduct };
+//@desc Create a Product
+//@route POST api/products
+//@access private/admin
+const createProduct = asyncHandler(async (req, res) => {
+  const product = new Product({
+    name: 'Sample name',
+    price: 0,
+    user: req.userProfileDetails._id,
+    image: '/images/sample.jpg',
+    brand: 'sample brand',
+    category: 'sample category',
+    countInStock: 0,
+    numReviews: 0,
+    description: 'sample description',
+  });
+  const createdProduct = await product.save();
+  res.status(201).json(createdProduct);
+});
+
+//@desc Create a Product
+//@route POST api/products
+//@access private/admin
+const deleteProduct = asyncHandler(async (req, res) => {
+  console.log(req.params.id);
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500);
+    throw new Error(error);
+  }
+});
+
+//@desc UPDATE a Product
+//@route PUT api/products/:id
+//@access private/admin
+const updateProduct = asyncHandler(async (req, res) => {
+  const { name, price, image, brand, category, countInStock, description } =
+    req.body;
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    product.name = name;
+    product.price = price;
+    product.description = description;
+    product.image = image;
+    product.brand = brand;
+    product.category = category;
+    product.countInStock = countInStock;
+  }
+  const updatedProduct = await product.save();
+  res.json(updatedProduct);
+});
+
+export {
+  getProducts,
+  getProductById,
+  reviewProduct,
+  searchProduct,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};

@@ -93,7 +93,7 @@ const UserEditScreen = () => {
                 onChange={(e) => adminCheckBox(e)}
               ></Form.Check>
 
-              {!isAdmin && <p>NOT AB=N ADMIN</p>}
+              {!isAdmin && <p>NOT AN ADMIN</p>}
             </Form.Group>
 
             <Button type="submit" variant="primary">

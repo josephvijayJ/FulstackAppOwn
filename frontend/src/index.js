@@ -6,6 +6,29 @@ import App from './App';
 import { Provider } from 'react-redux';
 import store from './store';
 
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import CheckoutForm from './screens/CheckoutForm';
+
+// const stripePromise = loadStripe(
+//   'pk_test_51KdFxaSEBfRbFcW68zi3GLcX7ISrgRQnq8czqESnJ2iPTnh6R9IV9fLZhyVTSYd5nY50uSywR1qRw0SjSnWrkMPU00zhlTXNSQ'
+// );
+
+// function App() {
+//   const options = {
+//     // passing the client secret obtained from the server
+//     clientSecret: '{{sk_test_51KdFxaSEBfRbFcW6Hi0Sn4xvovlVwOUM1Vq5KBhDthm2TvWKdESEMVoDQvOGDxpUMMnkJyfBoi0GvPhNC7M1JatC004qffsCIx}}',
+//   };
+// const options = {
+//   // passing the client secret obtained from the server
+//   clientSecret:
+//     '{{sk_test_51KdFxaSEBfRbFcW6Hi0Sn4xvovlVwOUM1Vq5KBhDthm2TvWKdESEMVoDQvOGDxpUMMnkJyfBoi0GvPhNC7M1JatC004qffsCIx}}',
+// };
+{
+  /* <Elements stripe={stripePromise} options={options}>
+      <CheckoutForm />
+    </Elements> */
+}
 ReactDOM.render(
   <Provider store={store}>
     <App />

@@ -7,11 +7,17 @@ import Loader from '../components/Loader';
 
 import { listAllOrders } from '../actions/orderActions';
 import { useNavigate } from 'react-router-dom';
+import Pagination from 'react-bootstrap/Pagination';
+import Paginate from '../components/Paginate';
+import { useLocation } from 'react-router-dom';
 
 const OrderListScreen = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const pageNum = new URLSearchParams(location.search).get('page');
+  console.log('LOCATION', location);
   const orderList = useSelector((state) => state.orderList);
-  const { loading, error, orders } = orderList;
+  const { loading, error, orders, pages, page } = orderList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -19,12 +25,12 @@ const OrderListScreen = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(listAllOrders());
+      dispatch(listAllOrders(pageNum ? pageNum : 1));
     } else {
       console.log('navigate to login page');
       navigate('/login');
     }
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate, pageNum]);
 
   const deleteHandler = (id) => {};
 
@@ -90,6 +96,7 @@ const OrderListScreen = () => {
           </tbody>
         </Table>
       )}
+      <Paginate pages={pages} page={page} />
     </>
   );
 };
